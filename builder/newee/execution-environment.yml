@@ -1,0 +1,16 @@
+---
+version: 1
+
+build_arg_defaults:
+  EE_BASE_IMAGE: 'registry.redhat.io/ansible-automation-platform-21/ee-minimal-rhel8:latest'
+
+dependencies:
+  galaxy: requirements.yml
+  python: requirements.txt
+
+additional_build_steps:
+  append:
+    - COPY root.crt /etc/pki/ca-trust/source/anchors/root.crt 
+    - RUN update-ca-trust
+    - RUN microdnf install crypto-policies-scripts openscap-scanner 
+    - RUN update-crypto-policies --set DEFAULT

@@ -1,0 +1,4 @@
+botocore>=1.19.0
+boto3>=1.16.0
+boto>=2.49.0
+openpyxl==3.0.9
