@@ -1,0 +1,9 @@
+---
+- name: test archive
+  hosts: localhost
+  vars:
+    oscap_profile: xccdf_org.ssgproject.content_profile_cis
+    oscap_policy: ssg-rhel8-ds
+  tasks:
+    - include_role:
+        name: role/oscap 

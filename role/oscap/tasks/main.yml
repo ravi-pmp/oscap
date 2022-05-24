@@ -1,0 +1,24 @@
+---
+#- name: install openscap scanner
+#   #   yum:
+#     name: "{{ item }}"
+#     state: latest
+#   with_items:
+#     - openscap-scanner
+#     - scap-security-guide
+
+ - block:
+   - name: run openscap
+     shell: oscap xccdf eval \
+       --local-files ./role/oscap/files/scap-files/security-data-oval-com.redhat.rhsa-RHEL8.xml.bz2
+       --profile {{ oscap_profile }} \
+       --results-arf /tmp/oscap-arf.xml \
+       --report /tmp/oscap-report.html \
+       /usr/share/xml/scap/ssg/content/{{ oscap_policy }}.xml
+
+   always:
+   - name: download report
+     fetch:
+       src: /tmp/oscap-report.html
+       dest: ./oscap-reports/{{ inventory_hostname }}.html
+       flat: yes
